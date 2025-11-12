@@ -34,7 +34,23 @@ The frontend expects a backend API to be available. The application makes API ca
 
 Note: This is a frontend-only repository. The backend is expected to be running separately (typically on a different server/port).
 
-## Recent Changes (Setup for Replit)
+## Recent Changes
+
+### Modern Design Overhaul (November 2025)
+Complete redesign of the application with modern, cool aesthetics:
+- **Global Styling**: Comprehensive CSS animations (fade, slide, float, glow, pulse, scale)
+- **Color System**: Modern gradient palette (primary, secondary, accent, success, warm, cool)
+- **Design Components**: Created reusable GradientCard, GlassCard, AnimatedStatistic, FloatingIcon, PageHeader
+- **Layouts**: Fixed sidebars with responsive drawer behavior using Ant Design Grid breakpoints
+- **Animations**: Floating icons, smooth transitions, hover effects, and animated statistics
+- **Dark Mode**: Full dark mode support with optimized color tokens
+- **Responsiveness**: Mobile-first design ensuring compatibility across all devices (PC, tablets, mobile)
+- **Pages Redesigned**: Landing, Login, Admin Dashboard, Teacher Dashboard, Student Dashboard
+- **Navigation**: Modern NavBar with segmented theme toggle and responsive label hiding
+
+All API endpoints and business logic remain unchanged - only visual design was updated.
+
+### Setup for Replit
 - Configured Vite to run on port 5000 with host 0.0.0.0
 - Added HMR configuration for Replit's proxy environment
 - Removed backend proxy configuration (backend runs separately)
