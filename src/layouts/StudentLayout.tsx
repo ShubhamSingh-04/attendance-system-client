@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Layout, Menu, Grid, Drawer, Button, theme } from 'antd';
+import { Layout, Menu, Grid, Drawer, Button, theme, Typography, Space } from 'antd';
 import {
   DashboardOutlined,
   FileTextOutlined,
   LogoutOutlined,
   MenuOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import NavBar from '../components/NavBar';
 
 const { Header, Sider, Content } = Layout;
 const { useBreakpoint } = Grid;
@@ -55,51 +57,125 @@ export default function StudentLayout() {
   );
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100vh', background: token.colorBgBase }}>
       {!isMobile && (
         <Sider
           collapsible
           collapsed={collapsed}
           onCollapse={setCollapsed}
-          theme="light"
-          style={{ background: token.colorBgContainer }}
+          width={260}
+          collapsedWidth={80}
+          style={{
+            background: token.colorBgContainer,
+            boxShadow: '2px 0 8px rgba(0,0,0,0.08)',
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            bottom: 0,
+          }}
         >
+          <div
+            style={{
+              height: 64,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderBottom: `1px solid ${token.colorBorder}`,
+              marginBottom: 16,
+            }}
+          >
+            {!collapsed ? (
+              <Space>
+                <UserOutlined style={{ fontSize: 24, color: token.colorPrimary }} />
+                <Typography.Title
+                  level={4}
+                  style={{
+                    margin: 0,
+                    background: 'var(--gradient-accent)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  Student Portal
+                </Typography.Title>
+              </Space>
+            ) : (
+              <UserOutlined style={{ fontSize: 28, color: token.colorPrimary }} />
+            )}
+          </div>
           {menu}
         </Sider>
       )}
-      <Layout>
+      <Layout style={{ marginLeft: isMobile ? 0 : collapsed ? 80 : 260, transition: 'margin 0.2s' }}>
         <Header
           style={{
-            padding: '0 16px',
+            padding: '0 24px',
             display: 'flex',
             alignItems: 'center',
-            gap: 12,
+            justifyContent: 'space-between',
             background: token.colorBgContainer,
             position: 'sticky',
             top: 0,
-            zIndex: 1000,
-            boxShadow: 'var(--box-shadow, 0 1px 4px rgba(0,0,0,0.06))',
+            zIndex: 999,
+            boxShadow: token.boxShadow,
+            backdropFilter: 'blur(8px)',
           }}
         >
-          {isMobile && (
-            <>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {isMobile && (
               <Button
                 type="text"
-                icon={<MenuOutlined style={{ color: token.colorText }} />}
+                size="large"
+                icon={<MenuOutlined />}
                 onClick={() => setDrawerOpen(true)}
               />
-              <Drawer
-                open={drawerOpen}
-                onClose={() => setDrawerOpen(false)}
-                placement="left"
-                bodyStyle={{ padding: 0 }}
+            )}
+            {!isMobile && (
+              <Typography.Text strong style={{ fontSize: 16 }}>
+                AI Attendance System
+              </Typography.Text>
+            )}
+          </div>
+          <NavBar />
+          {isMobile && (
+            <Drawer
+              open={drawerOpen}
+              onClose={() => setDrawerOpen(false)}
+              placement="left"
+              bodyStyle={{ padding: 0 }}
+              width={280}
+            >
+              <div
+                style={{
+                  height: 64,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderBottom: `1px solid ${token.colorBorder}`,
+                  marginBottom: 16,
+                  background: 'var(--gradient-accent)',
+                }}
               >
-                {menu}
-              </Drawer>
-            </>
+                <Space>
+                  <UserOutlined style={{ fontSize: 24, color: 'white' }} />
+                  <Typography.Title level={4} style={{ margin: 0, color: 'white' }}>
+                    Student Portal
+                  </Typography.Title>
+                </Space>
+              </div>
+              {menu}
+            </Drawer>
           )}
         </Header>
-        <Content style={{ margin: '12px 16px' }}>
+        <Content
+          style={{
+            margin: '24px',
+            minHeight: 'calc(100vh - 112px)',
+          }}
+          className="animate-fade-in"
+        >
           <Outlet />
         </Content>
       </Layout>

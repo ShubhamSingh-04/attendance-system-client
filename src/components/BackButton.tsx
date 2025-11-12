@@ -22,9 +22,17 @@ export default function BackButton({
 
   return (
     <Button
+      type="default"
+      size="large"
       icon={<LeftOutlined />}
       onClick={handle}
-      style={{ marginBottom: 8, ...style }}
+      style={{
+        marginBottom: 24,
+        borderRadius: 12,
+        fontWeight: 600,
+        ...style,
+      }}
+      className="animate-slide-in-left"
     >
       {children}
     </Button>

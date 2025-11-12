@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
-import { Card, Col, Row, Typography, Spin, Alert, Button, theme } from 'antd';
+import { Card, Col, Row, Typography, Spin, Alert, Grid, theme } from 'antd';
 import {
-  RobotOutlined,
   TeamOutlined,
   ApartmentOutlined,
+  UserOutlined,
+  RocketOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
 import { getAdminStats } from '../../api/admin';
+import PageHeader from '../../components/PageHeader';
+import AnimatedStatistic from '../../components/AnimatedStatistic';
+
+const { useBreakpoint } = Grid;
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const screens = useBreakpoint();
   const { token } = theme.useToken();
   const [stats, setStats] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
@@ -31,93 +37,217 @@ export default function AdminDashboard() {
     })();
   }, []);
 
-  if (loading) return <Spin />;
-  if (err) return <Alert type="error" message={err} />;
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: 80 }}>
+        <Spin size="large" />
+      </div>
+    );
+  }
+  
+  if (err) {
+    return (
+      <Alert
+        type="error"
+        message={err}
+        style={{ borderRadius: 16 }}
+        className="animate-fade-in"
+      />
+    );
+  }
 
-  const entries =
-    stats && typeof stats === 'object' ? Object.entries(stats) : [];
+  const gradients = [
+    'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+  ];
+
+  const icons = [
+    <TeamOutlined />,
+    <UserOutlined />,
+    <ApartmentOutlined />,
+    <RocketOutlined />,
+  ];
+
+  const entries = stats && typeof stats === 'object' ? Object.entries(stats) : [];
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      <style>
-        {`
-        @keyframes pulseGlow {
-          0%, 100% { box-shadow: 0 0 0 rgba(99,102,241,0.0); }
-          50% { box-shadow: 0 0 40px rgba(99,102,241,0.25); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50%      { transform: translateY(-10px); }
-        }
-        `}
-      </style>
+    <div>
       <BackButton />
-      <Typography.Title level={3} style={{ letterSpacing: 0.4 }}>
-        Admin Dashboard
-      </Typography.Title>
-      <Row gutter={[16, 16]}>
-        {entries.map(([key, value]) => {
-          const lower = key.toLowerCase();
-          const Icon = lower.includes('teacher')
-            ? TeamOutlined
-            : lower.includes('room')
-            ? ApartmentOutlined
-            : RobotOutlined;
-          const bg = token.colorBgContainer;
-          const border = `1px solid ${token.colorBorderSecondary}`;
-          return (
-            <Col xs={24} sm={12} md={8} lg={6} key={key}>
-              <Card
-                style={{
-                  background: bg,
-                  border,
-                  transition: 'transform 200ms ease, box-shadow 200ms ease',
-                  animation: 'pulseGlow 3.5s ease-in-out infinite',
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.transform =
-                    'translateY(-4px)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.transform =
-                    'translateY(0px)';
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                    marginBottom: 4,
-                  }}
-                >
-                  <Icon
-                    style={{
-                      fontSize: 26,
-                      color: 'rgba(99,102,241,0.85)',
-                      animation: 'float 6s ease-in-out infinite',
-                    }}
-                  />
-                  <Typography.Text
-                    type="secondary"
-                    style={{ textTransform: 'capitalize' }}
-                  >
-                    {key}
-                  </Typography.Text>
-                </div>
-                <Typography.Title level={2} style={{ margin: 0 }}>
-                  {String(value)}
-                </Typography.Title>
-              </Card>
-            </Col>
-          );
-        })}
-      </Row>
+      
+      <PageHeader
+        title="Admin Dashboard"
+        subtitle="Monitor and manage your entire system"
+        icon={<RocketOutlined />}
+      />
+
+      {entries.length === 0 ? (
+        <Alert
+          type="info"
+          message="No statistics available"
+          style={{ borderRadius: 16 }}
+        />
+      ) : (
+        <Row gutter={[24, 24]}>
+          {entries.map(([key, value], index) => {
+            const Icon = icons[index % icons.length];
+            const gradient = gradients[index % gradients.length];
+            
+            return (
+              <Col xs={24} sm={12} lg={6} key={key}>
+                <AnimatedStatistic
+                  title={key.charAt(0).toUpperCase() + key.slice(1)}
+                  value={String(value)}
+                  gradient={gradient}
+                  icon={Icon}
+                  delay={index * 100}
+                />
+              </Col>
+            );
+          })}
+        </Row>
+      )}
+
+      <div style={{ marginTop: 48 }}>
+        <Typography.Title level={3} style={{ marginBottom: 24 }}>
+          Quick Actions
+        </Typography.Title>
+        <Row gutter={[24, 24]}>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <Card
+              hoverable
+              onClick={() => navigate('/admin/stream')}
+              style={{
+                background: 'var(--gradient-primary)',
+                color: 'white',
+                border: 'none',
+                textAlign: 'center',
+                minHeight: 140,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+              className="animate-scale-in card-gradient"
+            >
+              <ApartmentOutlined style={{ fontSize: 40, marginBottom: 16 }} />
+              <Typography.Title level={4} style={{ color: 'white', margin: 0 }}>
+                Room Stream
+              </Typography.Title>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <Card
+              hoverable
+              onClick={() => navigate('/admin/teachers')}
+              style={{
+                background: 'var(--gradient-secondary)',
+                color: 'white',
+                border: 'none',
+                textAlign: 'center',
+                minHeight: 140,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+              className="animate-scale-in card-gradient"
+            >
+              <TeamOutlined style={{ fontSize: 40, marginBottom: 16 }} />
+              <Typography.Title level={4} style={{ color: 'white', margin: 0 }}>
+                Teachers
+              </Typography.Title>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <Card
+              hoverable
+              onClick={() => navigate('/admin/students')}
+              style={{
+                background: 'var(--gradient-accent)',
+                color: 'white',
+                border: 'none',
+                textAlign: 'center',
+                minHeight: 140,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+              className="animate-scale-in card-gradient"
+            >
+              <UserOutlined style={{ fontSize: 40, marginBottom: 16 }} />
+              <Typography.Title level={4} style={{ color: 'white', margin: 0 }}>
+                Students
+              </Typography.Title>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <Card
+              hoverable
+              onClick={() => navigate('/admin/subjects')}
+              style={{
+                background: 'var(--gradient-success)',
+                color: 'white',
+                border: 'none',
+                textAlign: 'center',
+                minHeight: 140,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+              className="animate-scale-in card-gradient"
+            >
+              <RocketOutlined style={{ fontSize: 40, marginBottom: 16 }} />
+              <Typography.Title level={4} style={{ color: 'white', margin: 0 }}>
+                Subjects
+              </Typography.Title>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <Card
+              hoverable
+              onClick={() => navigate('/admin/rooms')}
+              style={{
+                background: 'var(--gradient-warm)',
+                color: 'white',
+                border: 'none',
+                textAlign: 'center',
+                minHeight: 140,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+              className="animate-scale-in card-gradient"
+            >
+              <ApartmentOutlined style={{ fontSize: 40, marginBottom: 16 }} />
+              <Typography.Title level={4} style={{ color: 'white', margin: 0 }}>
+                Rooms
+              </Typography.Title>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <Card
+              hoverable
+              onClick={() => navigate('/admin/classes')}
+              style={{
+                background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                color: '#333',
+                border: 'none',
+                textAlign: 'center',
+                minHeight: 140,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+              className="animate-scale-in card-gradient"
+            >
+              <TeamOutlined style={{ fontSize: 40, marginBottom: 16 }} />
+              <Typography.Title level={4} style={{ color: '#333', margin: 0 }}>
+                Classes
+              </Typography.Title>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }

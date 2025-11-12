@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Card, Form, Input, Typography, Alert } from 'antd';
+import { Button, Card, Form, Input, Typography, Alert, Space } from 'antd';
+import { UserOutlined, LockOutlined, LoginOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { http } from '../api/http';
 import { useAuth } from '../auth/AuthContext';
+import FloatingIcon from '../components/FloatingIcon';
 
 export default function Login() {
   const location = useLocation();
@@ -51,41 +53,140 @@ export default function Login() {
     }
   };
 
+  const roleGradient = desiredRole === 'Admin' 
+    ? 'var(--gradient-primary)' 
+    : desiredRole === 'Teacher' 
+    ? 'var(--gradient-secondary)' 
+    : 'var(--gradient-accent)';
+
   return (
-    <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 24 }}>
-      <Card style={{ maxWidth: 420, width: '100%' }}>
-        <Typography.Title level={3} style={{ textAlign: 'center', marginBottom: 8 }}>
-          {desiredRole ? `${desiredRole} Login` : 'Login'}
-        </Typography.Title>
-        <Typography.Paragraph type="secondary" style={{ textAlign: 'center', marginBottom: 16 }}>
-          Use your email/username and password
-        </Typography.Paragraph>
-        {err && <Alert type="error" message={err} style={{ marginBottom: 16 }} />}
-        <Form layout="vertical" onFinish={onFinish}>
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'radial-gradient(ellipse at top, rgba(99,102,241,0.1) 0%, transparent 50%), radial-gradient(ellipse at bottom, rgba(139,92,246,0.1) 0%, transparent 50%), var(--bg)',
+        padding: 24,
+      }}
+    >
+      <FloatingIcon color="rgba(99,102,241,0.3)" size={56} delay={0} top="10%" left="8%">
+        <UserOutlined />
+      </FloatingIcon>
+      <FloatingIcon color="rgba(139,92,246,0.3)" size={48} delay={2} bottom="15%" right="10%">
+        <LockOutlined />
+      </FloatingIcon>
+
+      <Card
+        style={{
+          maxWidth: 480,
+          width: '100%',
+          background: 'var(--card)',
+          backdropFilter: 'blur(20px)',
+          boxShadow: 'var(--box-shadow-lg)',
+          border: `1px solid var(--border)`,
+          overflow: 'hidden',
+        }}
+        className="animate-scale-in"
+      >
+        <div
+          style={{
+            background: roleGradient,
+            margin: '-24px -24px 24px -24px',
+            padding: 40,
+            textAlign: 'center',
+          }}
+        >
+          <Typography.Title
+            level={2}
+            style={{
+              color: 'white',
+              margin: 0,
+              fontSize: 32,
+              fontWeight: 800,
+            }}
+          >
+            {desiredRole ? `${desiredRole} Login` : 'Login'}
+          </Typography.Title>
+          <Typography.Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16 }}>
+            Enter your credentials to continue
+          </Typography.Text>
+        </div>
+
+        {err && (
+          <Alert
+            type="error"
+            message={err}
+            style={{ marginBottom: 24, borderRadius: 12 }}
+            showIcon
+            className="animate-fade-in"
+          />
+        )}
+
+        <Form layout="vertical" onFinish={onFinish} size="large">
           <Form.Item
-            label="Identifier"
+            label={<span style={{ fontWeight: 600 }}>Email or Username</span>}
             name="identifier"
-            rules={[{ required: true, message: 'Please enter email or username' }]}
+            rules={[{ required: true, message: 'Please enter your email or username' }]}
           >
-            <Input placeholder="Email or username" />
+            <Input
+              prefix={<UserOutlined style={{ color: 'var(--muted)' }} />}
+              placeholder="Enter your email or username"
+              style={{ borderRadius: 12, height: 48 }}
+            />
           </Form.Item>
+
           <Form.Item
-            label="Password"
+            label={<span style={{ fontWeight: 600 }}>Password</span>}
             name="password"
-            rules={[{ required: true, message: 'Please enter password' }]}
+            rules={[{ required: true, message: 'Please enter your password' }]}
           >
-            <Input.Password placeholder="Password" />
+            <Input.Password
+              prefix={<LockOutlined style={{ color: 'var(--muted)' }} />}
+              placeholder="Enter your password"
+              style={{ borderRadius: 12, height: 48 }}
+            />
           </Form.Item>
-          <Button type="primary" htmlType="submit" block loading={loading}>
+
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            loading={loading}
+            size="large"
+            icon={<LoginOutlined />}
+            style={{
+              height: 52,
+              borderRadius: 12,
+              fontWeight: 700,
+              fontSize: 16,
+              background: roleGradient,
+              border: 'none',
+              marginTop: 8,
+              boxShadow: '0 8px 24px rgba(99, 102, 241, 0.3)',
+            }}
+          >
             Sign In
           </Button>
         </Form>
-        <Button style={{ marginTop: 12 }} block onClick={() => navigate('/')}>
-          ← Go to Home
+
+        <Button
+          block
+          size="large"
+          icon={<ArrowLeftOutlined />}
+          onClick={() => navigate('/')}
+          style={{
+            marginTop: 16,
+            borderRadius: 12,
+            fontWeight: 600,
+            height: 48,
+          }}
+        >
+          Back to Home
         </Button>
       </Card>
     </div>
   );
 }
-
-
