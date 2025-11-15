@@ -18,7 +18,15 @@ export default function App() {
           boxShadow: 'var(--box-shadow, 0 1px 4px rgba(0,0,0,0.06))',
         }}
       >
-        <Typography.Text style={{ color: token.colorText, fontWeight: 600 }}>
+        <Typography.Text
+          style={{
+            color: token.colorText,
+            fontWeight: 900,
+            fontSize: 28,
+            letterSpacing: '0.5px',
+            fontFamily: 'inherit',
+          }}
+        >
           AI Attendance
         </Typography.Text>
         <NavBar />

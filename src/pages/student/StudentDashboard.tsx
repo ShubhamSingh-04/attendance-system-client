@@ -112,7 +112,11 @@ export default function StudentDashboard() {
 
   if (err) {
     return (
-      <Alert type="error" message={err} style={{ marginBottom: 16, borderRadius: 16 }} />
+      <Alert
+        type="error"
+        message={err}
+        style={{ marginBottom: 16, borderRadius: 16 }}
+      />
     );
   }
 
@@ -125,11 +129,6 @@ export default function StudentDashboard() {
   return (
     <div>
       <BackButton />
-      <PageHeader
-        title="Student Dashboard"
-        subtitle="Track your attendance and academic progress"
-        icon={<UserOutlined />}
-      />
 
       <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
         <Col xs={24} md={8}>
@@ -143,18 +142,43 @@ export default function StudentDashboard() {
             }}
             className="animate-scale-in card-gradient"
           >
-            <UserOutlined style={{ fontSize: 64, marginBottom: 16, opacity: 0.9 }} />
-            <Typography.Title level={3} style={{ color: 'white', margin: '8px 0' }}>
+            <UserOutlined
+              style={{ fontSize: 64, marginBottom: 16, opacity: 0.9 }}
+            />
+            <Typography.Title
+              level={3}
+              style={{ color: 'white', margin: '8px 0' }}
+            >
               {profile?.name || 'Student'}
             </Typography.Title>
-            <Typography.Text style={{ color: 'rgba(255,255,255,0.9)', display: 'block', marginBottom: 8 }}>
+            <Typography.Text
+              style={{
+                color: 'rgba(255,255,255,0.9)',
+                display: 'block',
+                marginBottom: 8,
+              }}
+            >
               {profile?.email}
             </Typography.Text>
-            <Divider style={{ borderColor: 'rgba(255,255,255,0.3)', margin: '16px 0' }} />
-            <Typography.Text style={{ color: 'rgba(255,255,255,0.9)', display: 'block', fontSize: 16 }}>
+            <Divider
+              style={{ borderColor: 'rgba(255,255,255,0.3)', margin: '16px 0' }}
+            />
+            <Typography.Text
+              style={{
+                color: 'rgba(255,255,255,0.9)',
+                display: 'block',
+                fontSize: 16,
+              }}
+            >
               Roll No: <strong>{profile?.rollNo}</strong>
             </Typography.Text>
-            <Typography.Text style={{ color: 'rgba(255,255,255,0.9)', display: 'block', fontSize: 16 }}>
+            <Typography.Text
+              style={{
+                color: 'rgba(255,255,255,0.9)',
+                display: 'block',
+                fontSize: 16,
+              }}
+            >
               Class: <strong>{classInfo?.name || 'N/A'}</strong>
             </Typography.Text>
           </Card>
@@ -204,7 +228,16 @@ export default function StudentDashboard() {
       </Row>
 
       <Card style={{ marginBottom: 24 }} className="animate-fade-in">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 16,
+            flexWrap: 'wrap',
+            gap: 12,
+          }}
+        >
           <Typography.Title level={3} style={{ margin: 0 }}>
             Attendance by Subject
           </Typography.Title>
@@ -237,12 +270,17 @@ export default function StudentDashboard() {
         </div>
 
         {processedSummary.length === 0 ? (
-          <Typography.Text type="secondary">No subject data available</Typography.Text>
+          <Typography.Text type="secondary">
+            No subject data available
+          </Typography.Text>
         ) : (
           <div style={{ display: 'grid', gap: 16 }}>
             {processedSummary.map((s, idx) => {
-              const pct = Math.round(Number(s.attendancePercentage || s.presentPercentage) || 0);
-              const color = pct >= 75 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
+              const pct = Math.round(
+                Number(s.attendancePercentage || s.presentPercentage) || 0
+              );
+              const color =
+                pct >= 75 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
               return (
                 <Card
                   key={idx}
@@ -251,8 +289,17 @@ export default function StudentDashboard() {
                     padding: 16,
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-                    <div style={{ minWidth: 180, fontWeight: 700, fontSize: 16 }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 16,
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    <div
+                      style={{ minWidth: 180, fontWeight: 700, fontSize: 16 }}
+                    >
                       {s.name || s.subject}
                     </div>
                     <div style={{ flex: 1, minWidth: 200 }}>

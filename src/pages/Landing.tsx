@@ -20,22 +20,53 @@ export default function Landing() {
         minHeight: '100vh',
         position: 'relative',
         overflow: 'hidden',
-        background: 'radial-gradient(ellipse at top, rgba(99,102,241,0.1) 0%, transparent 50%), radial-gradient(ellipse at bottom, rgba(139,92,246,0.1) 0%, transparent 50%), var(--bg)',
+        background:
+          'radial-gradient(ellipse at top, rgba(99,102,241,0.1) 0%, transparent 50%), radial-gradient(ellipse at bottom, rgba(139,92,246,0.1) 0%, transparent 50%), var(--bg)',
       }}
     >
-      <FloatingIcon color="rgba(99,102,241,0.4)" size={64} delay={0} top="10%" left="8%">
+      <FloatingIcon
+        color="rgba(99,102,241,0.4)"
+        size={64}
+        delay={0}
+        top="10%"
+        left="8%"
+      >
         <RobotOutlined />
       </FloatingIcon>
-      <FloatingIcon color="rgba(139,92,246,0.4)" size={56} delay={2} top="20%" right="10%">
+      <FloatingIcon
+        color="rgba(139,92,246,0.4)"
+        size={56}
+        delay={2}
+        top="20%"
+        right="10%"
+      >
         <CloudOutlined />
       </FloatingIcon>
-      <FloatingIcon color="rgba(20,184,166,0.4)" size={60} delay={4} bottom="15%" left="12%">
+      <FloatingIcon
+        color="rgba(20,184,166,0.4)"
+        size={60}
+        delay={4}
+        bottom="15%"
+        left="12%"
+      >
         <ThunderboltOutlined />
       </FloatingIcon>
-      <FloatingIcon color="rgba(245,158,11,0.4)" size={52} delay={1.5} top="60%" right="15%">
+      <FloatingIcon
+        color="rgba(245,158,11,0.4)"
+        size={52}
+        delay={1.5}
+        top="60%"
+        right="15%"
+      >
         <SafetyOutlined />
       </FloatingIcon>
-      <FloatingIcon color="rgba(236,72,153,0.4)" size={48} delay={3.5} bottom="25%" right="8%">
+      <FloatingIcon
+        color="rgba(236,72,153,0.4)"
+        size={48}
+        delay={3.5}
+        bottom="25%"
+        right="8%"
+      >
         <RocketOutlined />
       </FloatingIcon>
 
@@ -71,13 +102,14 @@ export default function Landing() {
           >
             ✨ AI-Powered Attendance System
           </div>
-          
+
           <Typography.Title
             level={1}
             style={{
               fontSize: 'clamp(36px, 5vw, 64px)',
               margin: '0 0 24px 0',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+              background:
+                'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -99,7 +131,8 @@ export default function Landing() {
               lineHeight: 1.8,
             }}
           >
-            Experience the future of attendance tracking with AI-powered face recognition, real-time analytics, and seamless monitoring
+            Experience the future of attendance tracking with AI-powered face
+            recognition, real-time analytics, and seamless monitoring
           </Typography.Paragraph>
 
           <Space size="large" wrap style={{ justifyContent: 'center' }}>
@@ -118,7 +151,7 @@ export default function Landing() {
                   border: 'none',
                   boxShadow: '0 8px 24px rgba(99, 102, 241, 0.4)',
                 }}
-                className="animate-scale-in"
+                className="landing-btn animate-scale-in"
               >
                 Admin Portal
               </Button>
@@ -138,7 +171,7 @@ export default function Landing() {
                   border: 'none',
                   boxShadow: '0 8px 24px rgba(240, 147, 251, 0.4)',
                 }}
-                className="animate-scale-in"
+                className="landing-btn animate-scale-in"
               >
                 Teacher Portal
               </Button>
@@ -158,7 +191,7 @@ export default function Landing() {
                   border: 'none',
                   boxShadow: '0 8px 24px rgba(79, 172, 254, 0.4)',
                 }}
-                className="animate-scale-in"
+                className="landing-btn animate-scale-in"
               >
                 Student Portal
               </Button>
@@ -178,7 +211,7 @@ export default function Landing() {
           >
             Why Choose Our System?
           </Typography.Title>
-          
+
           <div
             style={{
               display: 'grid',
@@ -195,14 +228,21 @@ export default function Landing() {
                 textAlign: 'center',
                 padding: 24,
               }}
-              className="animate-fade-in-up card-gradient"
+              className="feature-card animate-fade-in-up card-gradient"
             >
-              <CheckCircleOutlined style={{ fontSize: 48, marginBottom: 16 }} />
-              <Typography.Title level={4} style={{ color: 'white', margin: '0 0 12px 0' }}>
+              <CheckCircleOutlined
+                style={{ fontSize: 48, marginBottom: 16 }}
+                className="feature-icon"
+              />
+              <Typography.Title
+                level={4}
+                style={{ color: 'white', margin: '0 0 12px 0' }}
+              >
                 AI-Powered Recognition
               </Typography.Title>
               <Typography.Text style={{ color: 'rgba(255,255,255,0.9)' }}>
-                Advanced facial recognition technology for accurate attendance tracking
+                Advanced facial recognition technology for accurate attendance
+                tracking
               </Typography.Text>
             </Card>
 
@@ -214,10 +254,16 @@ export default function Landing() {
                 textAlign: 'center',
                 padding: 24,
               }}
-              className="animate-fade-in-up card-gradient"
+              className="feature-card animate-fade-in-up card-gradient"
             >
-              <RocketOutlined style={{ fontSize: 48, marginBottom: 16 }} />
-              <Typography.Title level={4} style={{ color: 'white', margin: '0 0 12px 0' }}>
+              <RocketOutlined
+                style={{ fontSize: 48, marginBottom: 16 }}
+                className="feature-icon"
+              />
+              <Typography.Title
+                level={4}
+                style={{ color: 'white', margin: '0 0 12px 0' }}
+              >
                 Real-Time Analytics
               </Typography.Title>
               <Typography.Text style={{ color: 'rgba(255,255,255,0.9)' }}>
@@ -233,10 +279,16 @@ export default function Landing() {
                 textAlign: 'center',
                 padding: 24,
               }}
-              className="animate-fade-in-up card-gradient"
+              className="feature-card animate-fade-in-up card-gradient"
             >
-              <SafetyOutlined style={{ fontSize: 48, marginBottom: 16 }} />
-              <Typography.Title level={4} style={{ color: 'white', margin: '0 0 12px 0' }}>
+              <SafetyOutlined
+                style={{ fontSize: 48, marginBottom: 16 }}
+                className="feature-icon"
+              />
+              <Typography.Title
+                level={4}
+                style={{ color: 'white', margin: '0 0 12px 0' }}
+              >
                 Secure & Reliable
               </Typography.Title>
               <Typography.Text style={{ color: 'rgba(255,255,255,0.9)' }}>

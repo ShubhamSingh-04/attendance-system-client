@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { Layout, Menu, Grid, Drawer, Button, theme, Typography, Space } from 'antd';
+import {
+  Layout,
+  Menu,
+  Grid,
+  Drawer,
+  Button,
+  theme,
+  Typography,
+  Space,
+} from 'antd';
 import {
   DashboardOutlined,
   FileTextOutlined,
@@ -8,7 +17,6 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import NavBar from '../components/NavBar';
 
 const { Header, Sider, Content } = Layout;
 const { useBreakpoint } = Grid;
@@ -88,7 +96,9 @@ export default function StudentLayout() {
           >
             {!collapsed ? (
               <Space>
-                <UserOutlined style={{ fontSize: 24, color: token.colorPrimary }} />
+                <UserOutlined
+                  style={{ fontSize: 24, color: token.colorPrimary }}
+                />
                 <Typography.Title
                   level={4}
                   style={{
@@ -102,13 +112,20 @@ export default function StudentLayout() {
                 </Typography.Title>
               </Space>
             ) : (
-              <UserOutlined style={{ fontSize: 28, color: token.colorPrimary }} />
+              <UserOutlined
+                style={{ fontSize: 28, color: token.colorPrimary }}
+              />
             )}
           </div>
           {menu}
         </Sider>
       )}
-      <Layout style={{ marginLeft: isMobile ? 0 : collapsed ? 80 : 260, transition: 'margin 0.2s' }}>
+      <Layout
+        style={{
+          marginLeft: isMobile ? 0 : collapsed ? 80 : 260,
+          transition: 'margin 0.2s',
+        }}
+      >
         <Header
           style={{
             padding: '0 24px',
@@ -133,12 +150,14 @@ export default function StudentLayout() {
               />
             )}
             {!isMobile && (
-              <Typography.Text strong style={{ fontSize: 16 }}>
-                AI Attendance System
+              <Typography.Text strong style={{ fontSize: 18 }}>
+                AI Attendance System{' '}
+                <span style={{ color: token.colorPrimary, fontWeight: 700 }}>
+                  | Student Dashboard
+                </span>
               </Typography.Text>
             )}
           </div>
-          <NavBar />
           {isMobile && (
             <Drawer
               open={drawerOpen}
@@ -160,8 +179,12 @@ export default function StudentLayout() {
               >
                 <Space>
                   <UserOutlined style={{ fontSize: 24, color: 'white' }} />
-                  <Typography.Title level={4} style={{ margin: 0, color: 'white' }}>
-                    Student Portal
+                  <Typography.Title
+                    level={4}
+                    style={{ margin: 0, color: 'white' }}
+                  >
+                    AI Attendance System{' '}
+                    <span style={{ fontWeight: 700 }}>| Student Dashboard</span>
                   </Typography.Title>
                 </Space>
               </div>

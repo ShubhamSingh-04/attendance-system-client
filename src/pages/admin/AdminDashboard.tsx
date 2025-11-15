@@ -44,7 +44,7 @@ export default function AdminDashboard() {
       </div>
     );
   }
-  
+
   if (err) {
     return (
       <Alert
@@ -70,17 +70,12 @@ export default function AdminDashboard() {
     <RocketOutlined />,
   ];
 
-  const entries = stats && typeof stats === 'object' ? Object.entries(stats) : [];
+  const entries =
+    stats && typeof stats === 'object' ? Object.entries(stats) : [];
 
   return (
     <div>
       <BackButton />
-      
-      <PageHeader
-        title="Admin Dashboard"
-        subtitle="Monitor and manage your entire system"
-        icon={<RocketOutlined />}
-      />
 
       {entries.length === 0 ? (
         <Alert
@@ -93,7 +88,7 @@ export default function AdminDashboard() {
           {entries.map(([key, value], index) => {
             const Icon = icons[index % icons.length];
             const gradient = gradients[index % gradients.length];
-            
+
             return (
               <Col xs={24} sm={12} lg={6} key={key}>
                 <AnimatedStatistic
@@ -229,8 +224,8 @@ export default function AdminDashboard() {
               hoverable
               onClick={() => navigate('/admin/classes')}
               style={{
-                background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-                color: '#333',
+                background: 'var(--gradient-cool)',
+                color: 'white',
                 border: 'none',
                 textAlign: 'center',
                 minHeight: 140,
@@ -241,7 +236,7 @@ export default function AdminDashboard() {
               className="animate-scale-in card-gradient"
             >
               <TeamOutlined style={{ fontSize: 40, marginBottom: 16 }} />
-              <Typography.Title level={4} style={{ color: '#333', margin: 0 }}>
+              <Typography.Title level={4} style={{ color: 'white', margin: 0 }}>
                 Classes
               </Typography.Title>
             </Card>

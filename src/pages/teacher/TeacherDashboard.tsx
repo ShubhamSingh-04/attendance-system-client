@@ -115,24 +115,25 @@ export default function TeacherDashboard() {
   return (
     <div>
       <BackButton />
-      <PageHeader
-        title="Teacher Dashboard"
-        subtitle="Monitor your classes and student attendance"
-        icon={<TeamOutlined />}
-      />
 
       {initialLoading ? (
         <div style={{ textAlign: 'center', padding: 80 }}>
           <Spin size="large" />
         </div>
       ) : err ? (
-        <Alert type="error" message={err} style={{ marginBottom: 16, borderRadius: 16 }} />
+        <Alert
+          type="error"
+          message={err}
+          style={{ marginBottom: 16, borderRadius: 16 }}
+        />
       ) : (
         <>
           <Card style={{ marginBottom: 24 }} className="animate-fade-in">
             <Row gutter={[16, 16]} align="middle">
               <Col xs={24} md={8}>
-                <label style={{ display: 'block', marginBottom: 8, fontWeight: 600 }}>
+                <label
+                  style={{ display: 'block', marginBottom: 8, fontWeight: 600 }}
+                >
                   Select Class
                 </label>
                 <Select
@@ -148,7 +149,9 @@ export default function TeacherDashboard() {
                 />
               </Col>
               <Col xs={24} md={8}>
-                <label style={{ display: 'block', marginBottom: 8, fontWeight: 600 }}>
+                <label
+                  style={{ display: 'block', marginBottom: 8, fontWeight: 600 }}
+                >
                   Select Subject
                 </label>
                 <Select
@@ -173,7 +176,11 @@ export default function TeacherDashboard() {
                   }}
                 >
                   <Statistic
-                    title={<span style={{ color: 'white', fontWeight: 600 }}>Total Students</span>}
+                    title={
+                      <span style={{ color: 'white', fontWeight: 600 }}>
+                        Total Students
+                      </span>
+                    }
                     value={summary.length}
                     valueStyle={{ color: 'white', fontWeight: 700 }}
                   />
@@ -204,7 +211,10 @@ export default function TeacherDashboard() {
                   }}
                   className="animate-scale-in"
                 >
-                  <Typography.Title level={4} style={{ color: 'white', marginBottom: 16 }}>
+                  <Typography.Title
+                    level={4}
+                    style={{ color: 'white', marginBottom: 16 }}
+                  >
                     Average Attendance
                   </Typography.Title>
                   <Progress
@@ -215,7 +225,13 @@ export default function TeacherDashboard() {
                     trailColor="rgba(255,255,255,0.3)"
                     strokeWidth={8}
                     format={(percent) => (
-                      <span style={{ color: 'white', fontSize: 32, fontWeight: 700 }}>
+                      <span
+                        style={{
+                          color: 'white',
+                          fontSize: 32,
+                          fontWeight: 700,
+                        }}
+                      >
                         {percent}%
                       </span>
                     )}
@@ -225,7 +241,16 @@ export default function TeacherDashboard() {
 
               <Col xs={24} lg={16}>
                 <Card style={{ minHeight: 240 }} className="animate-fade-in">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginBottom: 16,
+                      flexWrap: 'wrap',
+                      gap: 12,
+                    }}
+                  >
                     <Typography.Title level={4} style={{ margin: 0 }}>
                       Student Attendance
                     </Typography.Title>
@@ -256,11 +281,22 @@ export default function TeacherDashboard() {
                       />
                     </Space>
                   </div>
-                  <div style={{ maxHeight: 400, overflowY: 'auto', display: 'grid', gap: 12 }}>
+                  <div
+                    style={{
+                      maxHeight: 400,
+                      overflowY: 'auto',
+                      display: 'grid',
+                      gap: 12,
+                    }}
+                  >
                     {processedSummary.map((s, idx) => {
                       const pct = Math.round(s.presentPercentage);
                       const color =
-                        pct >= 75 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
+                        pct >= 75
+                          ? '#10b981'
+                          : pct >= 50
+                          ? '#f59e0b'
+                          : '#ef4444';
                       return (
                         <div
                           key={s._id}
@@ -273,7 +309,13 @@ export default function TeacherDashboard() {
                             borderRadius: 12,
                           }}
                         >
-                          <div style={{ minWidth: 140, fontWeight: 600, fontSize: 14 }}>
+                          <div
+                            style={{
+                              minWidth: 140,
+                              fontWeight: 600,
+                              fontSize: 14,
+                            }}
+                          >
                             {s.name}
                           </div>
                           <div style={{ flex: 1 }}>
@@ -328,7 +370,10 @@ export default function TeacherDashboard() {
                   className="animate-scale-in card-gradient"
                 >
                   <TeamOutlined style={{ fontSize: 36, marginBottom: 12 }} />
-                  <Typography.Title level={5} style={{ color: 'white', margin: 0 }}>
+                  <Typography.Title
+                    level={5}
+                    style={{ color: 'white', margin: 0 }}
+                  >
                     My Classes
                   </Typography.Title>
                 </Card>
@@ -350,7 +395,10 @@ export default function TeacherDashboard() {
                   className="animate-scale-in card-gradient"
                 >
                   <BookOutlined style={{ fontSize: 36, marginBottom: 12 }} />
-                  <Typography.Title level={5} style={{ color: 'white', margin: 0 }}>
+                  <Typography.Title
+                    level={5}
+                    style={{ color: 'white', margin: 0 }}
+                  >
                     My Subjects
                   </Typography.Title>
                 </Card>
@@ -371,8 +419,13 @@ export default function TeacherDashboard() {
                   }}
                   className="animate-scale-in card-gradient"
                 >
-                  <CheckCircleOutlined style={{ fontSize: 36, marginBottom: 12 }} />
-                  <Typography.Title level={5} style={{ color: 'white', margin: 0 }}>
+                  <CheckCircleOutlined
+                    style={{ fontSize: 36, marginBottom: 12 }}
+                  />
+                  <Typography.Title
+                    level={5}
+                    style={{ color: 'white', margin: 0 }}
+                  >
                     Mark Attendance
                   </Typography.Title>
                 </Card>
@@ -393,8 +446,13 @@ export default function TeacherDashboard() {
                   }}
                   className="animate-scale-in card-gradient"
                 >
-                  <FileDoneOutlined style={{ fontSize: 36, marginBottom: 12 }} />
-                  <Typography.Title level={5} style={{ color: 'white', margin: 0 }}>
+                  <FileDoneOutlined
+                    style={{ fontSize: 36, marginBottom: 12 }}
+                  />
+                  <Typography.Title
+                    level={5}
+                    style={{ color: 'white', margin: 0 }}
+                  >
                     Records
                   </Typography.Title>
                 </Card>

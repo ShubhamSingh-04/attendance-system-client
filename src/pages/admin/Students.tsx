@@ -78,12 +78,13 @@ export default function Students() {
     setFile(null);
     form.setFieldsValue({
       name: record.name,
-      classCode: record.class?.code || record.classCode,
+      classCode: record.class?.classCode || record.classCode,
       rollNo: record.rollNo,
-      semester: record.semester,
+      semester: record.class?.semester || record.semester,
       username: record.user?.username || record.username,
       email: record.user?.email || record.email,
       phoneNumber: record.phoneNumber,
+      password: '', // Clear password field on edit
     });
     setModalOpen(true);
   };
@@ -198,12 +199,7 @@ export default function Students() {
           onValuesChange={(changed) => {
             if (changed.rollNo !== undefined) {
               const rn = changed.rollNo;
-              const current = form.getFieldValue('username');
-              if (!current || current === form.__lastAutoUsername) {
-                form.setFieldsValue({ username: rn });
-                // @ts-ignore
-                form.__lastAutoUsername = rn;
-              }
+              form.setFieldsValue({ username: rn });
             }
           }}
         >
@@ -261,15 +257,17 @@ export default function Students() {
           >
             <Input />
           </Form.Item>
-          {!editing && (
-            <Form.Item
-              name="password"
-              label="Password"
-              rules={[{ required: true }]}
-            >
-              <Input.Password />
-            </Form.Item>
-          )}
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[{ required: !editing }]}
+          >
+            <Input.Password
+              placeholder={
+                editing ? '(Leave blank to keep current password)' : ''
+              }
+            />
+          </Form.Item>
           <Form.Item label="Student Image">
             <Upload
               beforeUpload={(f) => {
