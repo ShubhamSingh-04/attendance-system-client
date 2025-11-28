@@ -51,12 +51,13 @@ export default function RoomStream() {
   };
 
   const buildStreamUrl = (id: string) => {
-    const base = window.location.origin; // use same-origin backend proxy or server
+    // `roomStreamUrl` already returns a fully-qualified URL (`API_HOST` + path).
+    // Do not prepend `window.location.origin` or we'll end up with a malformed URL.
     const token = localStorage.getItem('token') || '';
     const q = new URLSearchParams();
     q.set('t', String(Date.now()));
     if (token) q.set('token', token);
-    return `${base}${roomStreamUrl(id)}?${q.toString()}`;
+    return `${roomStreamUrl(id)}?${q.toString()}`;
   };
 
   return (

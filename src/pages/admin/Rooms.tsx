@@ -70,13 +70,17 @@ export default function Rooms() {
         });
         message.success('Updated');
       } else {
+        // Backend expects `cameras` as an array when creating a room.
+        // Convert the single camera fields into a `cameras` array.
         await createRoom({
           name: values.name,
           description: values.description,
-          camera: {
-            cameraId: values.cameraId,
-            cameraAccessLink: values.cameraAccessLink,
-          },
+          cameras: [
+            {
+              cameraId: values.cameraId,
+              cameraAccessLink: values.cameraAccessLink,
+            },
+          ],
         });
         message.success('Created');
       }

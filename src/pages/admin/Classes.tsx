@@ -1,5 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Button, Modal, Form, Input, Space, message, Row, Col, Card, Typography } from 'antd';
+import {
+  Button,
+  Modal,
+  Form,
+  Input,
+  Space,
+  message,
+  Row,
+  Col,
+  Card,
+  Typography,
+  Select,
+} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { createClass, deleteClass, listClasses } from '../../api/admin';
 
@@ -7,6 +19,10 @@ export default function Classes() {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<any | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -21,7 +37,9 @@ export default function Classes() {
       setLoading(false);
     }
   };
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const onCreate = () => {
     form.resetFields();
@@ -41,13 +59,27 @@ export default function Classes() {
     }
   };
 
-  const onDeleteRow = async (record: any) => {
+  const onRequestDelete = (record: any) => {
+    setDeleteError(null);
+    setDeleteTarget(record);
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    setDeleteError(null);
     try {
-      await deleteClass(record._id);
+      await deleteClass(deleteTarget._id);
+      setDeleteModalOpen(false);
+      setDeleteTarget(null);
       message.success('Deleted');
       fetchData();
     } catch (e: any) {
-      message.error(e?.response?.data?.message || 'Delete failed');
+      const errMsg = e?.response?.data?.message || 'Delete failed';
+      setDeleteError(errMsg);
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -55,7 +87,9 @@ export default function Classes() {
     <Space direction="vertical" style={{ width: '100%' }}>
       <Space style={{ justifyContent: 'space-between', width: '100%' }}>
         <h3>Classes</h3>
-        <Button type="primary" onClick={onCreate}>Add Class</Button>
+        <Button type="primary" onClick={onCreate}>
+          Add Class
+        </Button>
       </Space>
       <Row gutter={[16, 16]}>
         {data.map((c) => (
@@ -65,15 +99,57 @@ export default function Classes() {
               loading={loading}
               onClick={() => navigate(`/admin/classes/${c._id}`)}
             >
-              <Typography.Title level={5} style={{ marginBottom: 4 }}>{c.name}</Typography.Title>
-              <Typography.Text type="secondary">Code: {c.classCode}</Typography.Text>
+              <Typography.Title level={5} style={{ marginBottom: 4 }}>
+                {c.name}
+              </Typography.Title>
+              <Typography.Text type="secondary">
+                Code: {c.classCode}
+              </Typography.Text>
+              <div style={{ marginTop: 8 }}>
+                <Typography.Text type="secondary">
+                  Semester: {c.semester ?? '—'}
+                </Typography.Text>
+              </div>
               <div style={{ marginTop: 12 }}>
-                <Button danger size="small" onClick={(e) => { e.stopPropagation(); onDeleteRow(c); }}>Delete</Button>
+                <Button
+                  danger
+                  type="primary"
+                  size="large"
+                  style={{ width: '100%' }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRequestDelete(c);
+                  }}
+                >
+                  Delete
+                </Button>
               </div>
             </Card>
           </Col>
         ))}
       </Row>
+      <Modal
+        title={deleteTarget ? `Delete ${deleteTarget.name}?` : 'Delete class'}
+        open={deleteModalOpen}
+        onOk={confirmDelete}
+        okButtonProps={{ danger: true }}
+        confirmLoading={deleting}
+        onCancel={() => {
+          setDeleteModalOpen(false);
+          setDeleteTarget(null);
+          setDeleteError(null);
+        }}
+        destroyOnClose
+      >
+        {deleteError ? (
+          <Typography.Text type="danger">{deleteError}</Typography.Text>
+        ) : (
+          <p>
+            Are you sure you want to delete this class? This action cannot be
+            undone.
+          </p>
+        )}
+      </Modal>
       <Modal
         title="Create Class"
         open={modalOpen}
@@ -88,10 +164,21 @@ export default function Classes() {
           <Form.Item name="classCode" label="Code" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
+          <Form.Item
+            name="semester"
+            label="Semester"
+            rules={[{ required: true, message: 'Please select semester' }]}
+          >
+            <Select placeholder="Select semester">
+              {Array.from({ length: 8 }, (_, i) => i + 1).map((s) => (
+                <Select.Option key={s} value={s}>
+                  {s}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         </Form>
       </Modal>
     </Space>
   );
 }
-
-

@@ -27,7 +27,7 @@ export default function App() {
             fontFamily: 'inherit',
           }}
         >
-          AI Attendance
+          AttendEase
         </Typography.Text>
         <NavBar />
       </Layout.Header>
