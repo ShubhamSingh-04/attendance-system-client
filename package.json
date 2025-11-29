@@ -1,0 +1,22 @@
+{
+  "name": "attend-ease",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Root runner for frontend, backend, and ML microservice",
+  "scripts": {
+    "setup": "npm install && npm run install:all",
+    "install:all": "npm run install:frontend && npm run install:backend && npm run install:ml",
+    "install:frontend": "npm install --prefix frontend",
+    "install:backend": "npm install --prefix backend",
+    "install:ml": "pip install -r backend/ml_microservice/requirements.txt",
+    "dev": "concurrently \"npm:dev:frontend\" \"npm:dev:backend\" \"npm:dev:ml\"",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:ml": "cd backend/ml_microservice && uvicorn main:app --reload"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "author": "",
+  "license": "ISC"
+}
